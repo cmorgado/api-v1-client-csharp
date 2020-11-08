@@ -12,11 +12,11 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			using (BlockchainApiHelper apiHelper = new BlockchainApiHelper(apiCode, new FakeHttpClient()))
 			{
 				Assert.NotNull(apiHelper);
-				Assert.NotNull(apiHelper.statisticsExplorer);
-				Assert.NotNull(apiHelper.blockExplorer);
-				Assert.NotNull(apiHelper.exchangeRateExplorer);
-				Assert.NotNull(apiHelper.transactionBroadcaster);
-				Assert.Null(apiHelper.walletCreator);
+				Assert.NotNull(apiHelper.StatisticsExplorer);
+				Assert.NotNull(apiHelper.BlockExplorer);
+				Assert.NotNull(apiHelper.ExchangeRateExplorer);
+				Assert.NotNull(apiHelper.TransactionBroadcaster);
+				Assert.Null(apiHelper.WalletCreator);
 		}
 	}
 
@@ -27,11 +27,11 @@ namespace Info.Blockchain.API.Tests.UnitTests
             using (BlockchainApiHelper apiHelper = new BlockchainApiHelper(apiCode, new FakeHttpClient(), "http://localhost:3000"))
             {
                 Assert.NotNull(apiHelper);
-                Assert.NotNull(apiHelper.statisticsExplorer);
-               Assert.NotNull(apiHelper.blockExplorer);
-              Assert.NotNull(apiHelper.exchangeRateExplorer);
-              Assert.NotNull(apiHelper.transactionBroadcaster);
-              Assert.NotNull(apiHelper.walletCreator);
+                Assert.NotNull(apiHelper.StatisticsExplorer);
+               Assert.NotNull(apiHelper.BlockExplorer);
+              Assert.NotNull(apiHelper.ExchangeRateExplorer);
+              Assert.NotNull(apiHelper.TransactionBroadcaster);
+              Assert.NotNull(apiHelper.WalletCreator);
           }
        }
     }

@@ -10,18 +10,18 @@ namespace Info.Blockchain.API.Client
 {
 	public class BlockchainHttpClient : IHttpClient
 	{
-		private const string BASE_URI = "https://blockchain.info";
-        private const int TIMEOUT_MS = 100000;
-		private readonly HttpClient httpClient;
+		private const string BaseUri = "https://blockchain.info";
+		private const int TimeoutMs = 100000;
+		private readonly HttpClient _httpClient;
 		public string ApiCode { get; set; }
 
-		public BlockchainHttpClient(string apiCode = null, string uri = BASE_URI)
+		public BlockchainHttpClient(string apiCode = null, string uri = BaseUri)
 		{
 			ApiCode = apiCode;
-			httpClient = new HttpClient
+			_httpClient = new HttpClient
 			{
 				BaseAddress = new Uri(uri),
-				Timeout = TimeSpan.FromMilliseconds(BlockchainHttpClient.TIMEOUT_MS)
+				Timeout = TimeSpan.FromMilliseconds(BlockchainHttpClient.TimeoutMs)
 			};
 		}
 
@@ -39,12 +39,12 @@ namespace Info.Blockchain.API.Client
 
 			if (queryString != null && queryString.Count > 0)
 			{
-				int queryStringIndex = route.IndexOf('?');
+				var queryStringIndex = route.IndexOf('?');
 				if (queryStringIndex >= 0)
 				{
 					//Append to querystring
-					string queryStringValue = queryStringIndex.ToString();
-                    //replace questionmark with &
+					var queryStringValue = queryStringIndex.ToString();
+					//replace questionmark with &
 					queryStringValue = "&" + queryStringValue.Substring(1);
 					route += queryStringValue;
 				}
@@ -53,8 +53,8 @@ namespace Info.Blockchain.API.Client
 					route += queryString.ToString();
 				}
 			}
-			HttpResponseMessage response = await httpClient.GetAsync(route);
-			string responseString = await ValidateResponse(response);
+			var response = await _httpClient.GetAsync(route);
+			var responseString = await ValidateResponse(response);
 			var responseObject = customDeserialization == null
 				? JsonConvert.DeserializeObject<T>(responseString)
 				: customDeserialization(responseString);
@@ -71,7 +71,7 @@ namespace Info.Blockchain.API.Client
 			{
 				route += "?api_code=" + ApiCode;
 			}
-			string json = JsonConvert.SerializeObject(postObject);
+			var json = JsonConvert.SerializeObject(postObject);
 			HttpContent httpContent;
 			if (multiPartContent)
 			{
@@ -84,9 +84,9 @@ namespace Info.Blockchain.API.Client
 			{
 				httpContent = new StringContent(json, Encoding.UTF8, contentType);
 			}
-			HttpResponseMessage response = await httpClient.PostAsync(route, httpContent);
-			string responseString = await this.ValidateResponse(response);
-			TResponse responseObject = JsonConvert.DeserializeObject<TResponse>(responseString);
+			var response = await _httpClient.PostAsync(route, httpContent);
+			var responseString = await this.ValidateResponse(response);
+			var responseObject = JsonConvert.DeserializeObject<TResponse>(responseString);
 			return responseObject;
 		}
 
@@ -94,16 +94,13 @@ namespace Info.Blockchain.API.Client
 		{
 			if (response.IsSuccessStatusCode)
 			{
-				string responseString = await response.Content.ReadAsStringAsync();
-				if (responseString != null && responseString.StartsWith("{\"error\":"))
-				{
-					JObject jObject = JObject.Parse(responseString);
-					string message = jObject["error"].ToObject<string>();
-					throw new ServerApiException(message, HttpStatusCode.BadRequest);
-				}
-				return responseString;
+				var responseString = await response.Content.ReadAsStringAsync();
+				if (responseString == null || !responseString.StartsWith("{\"error\":")) return responseString;
+				var jObject = JObject.Parse(responseString);
+				var message = jObject["error"].ToObject<string>();
+				throw new ServerApiException(message, HttpStatusCode.BadRequest);
 			}
-			string responseContent = await response.Content.ReadAsStringAsync();
+			var responseContent = await response.Content.ReadAsStringAsync();
 			if (string.Equals(responseContent, "Block Not Found"))
 			{
 				throw new ServerApiException("Block Not Found", HttpStatusCode.NotFound);
@@ -113,7 +110,7 @@ namespace Info.Blockchain.API.Client
 
 		public void Dispose()
 		{
-			httpClient.Dispose();
+			_httpClient.Dispose();
 		}
 	}
 }

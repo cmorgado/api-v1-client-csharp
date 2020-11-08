@@ -9,11 +9,11 @@
     <Company>Blockchain</Company>
     <Description>Official .NET Core library for interacting with the Blockchain.info API.</Description>
     <Copyright>Copyright 2014 Blockchain</Copyright>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CompareNETObjects" Version="3.06.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="CompareNETObjects" Version="4.67.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 </Project>

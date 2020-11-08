@@ -14,7 +14,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.exchangeRateExplorer.ToBtcAsync(null, 1);
+					await apiHelper.ExchangeRateExplorer.ToBtcAsync(null, 1);
 				}
 			});
 		}
@@ -26,7 +26,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.exchangeRateExplorer.ToBtcAsync("USD", -1);
+					await apiHelper.ExchangeRateExplorer.ToBtcAsync("USD", -1);
 				}
 			});
 		}
@@ -39,7 +39,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
                     var btc = new BitcoinValue(new decimal(-0.4));
-					await apiHelper.exchangeRateExplorer.FromBtcAsync(btc);
+					await apiHelper.ExchangeRateExplorer.FromBtcAsync(btc);
 				}
 			});
 
@@ -47,7 +47,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.exchangeRateExplorer.FromBtcAsync(null);
+                    await apiHelper.ExchangeRateExplorer.FromBtcAsync(null);
                 }
             });
 		}

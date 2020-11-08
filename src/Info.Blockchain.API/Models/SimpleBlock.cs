@@ -47,8 +47,8 @@ namespace Info.Blockchain.API.Models
 
 		public static ReadOnlyCollection<SimpleBlock> DeserializeMultiple(string blocksJson)
 		{
-			JObject blocksJObject = JObject.Parse(blocksJson);
-			ReadOnlyCollection<SimpleBlock> blocks = blocksJObject["blocks"].ToObject<ReadOnlyCollection<SimpleBlock>>();
+			var blocksJObject = JObject.Parse(blocksJson);
+			var blocks = blocksJObject["blocks"].ToObject<ReadOnlyCollection<SimpleBlock>>();
 			return blocks;
 		}
 	}

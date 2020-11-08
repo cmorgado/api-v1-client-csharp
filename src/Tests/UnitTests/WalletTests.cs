@@ -103,7 +103,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper("APICODE"))
                 {
-                    await apiHelper.walletCreator.CreateAsync(null);
+                    await apiHelper.WalletCreator.CreateAsync(null);
                 }
             });
         }
@@ -115,7 +115,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.walletCreator.CreateAsync("password");
+                    await apiHelper.WalletCreator.CreateAsync("password");
                 }
             });
         }
@@ -126,7 +126,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             using (BlockchainApiHelper apiHelper = new BlockchainApiHelper("123", new FakeWalletHttpClient(),
                                                         "123", new FakeWalletHttpClient()))
             {
-                CreateWalletResponse walletResponse = await apiHelper.walletCreator.CreateAsync("Password");
+                CreateWalletResponse walletResponse = await apiHelper.WalletCreator.CreateAsync("Password");
                 Assert.NotNull(walletResponse);
 
                 Assert.Equal(walletResponse.Address, "12AaMuRnzw6vW6s2KPRAGeX53meTf8JbZS");

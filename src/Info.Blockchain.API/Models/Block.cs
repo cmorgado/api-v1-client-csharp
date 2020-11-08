@@ -100,8 +100,8 @@ namespace Info.Blockchain.API.Models
 		//Hack to add the missing block_height value into transactions
 		public static Block Deserialize(string blockJson)
 		{
-			JObject blockJObject = JObject.Parse(blockJson);
-			foreach (JToken jToken in blockJObject["tx"].AsJEnumerable())
+			var blockJObject = JObject.Parse(blockJson);
+			foreach (var jToken in blockJObject["tx"].AsJEnumerable())
 			{
 				jToken["block_height"] = blockJObject["height"];
 				jToken["double_spend"] = false;
@@ -111,9 +111,9 @@ namespace Info.Blockchain.API.Models
 
 		public new static ReadOnlyCollection<Block> DeserializeMultiple(string blocksJson)
 		{
-			JObject blocksJObject = JObject.Parse(blocksJson);
+			var blocksJObject = JObject.Parse(blocksJson);
 
-			List<Block> blocks = blocksJObject["blocks"]
+			var blocks = blocksJObject["blocks"]
 				.AsJEnumerable()
 				.Select(jToken => Block.Deserialize(jToken.ToString())).
 				ToList();

@@ -13,7 +13,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetHash160AddressAsync("");
+					await apiHelper.BlockExplorer.GetHash160AddressAsync("");
 				}
 			});
 		}
@@ -25,7 +25,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetBase58AddressAsync("test", -1);
+					await apiHelper.BlockExplorer.GetBase58AddressAsync("test", -1);
 				}
 			});
 		}
@@ -36,7 +36,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.blockExplorer.GetXpub(null);
+                    await apiHelper.BlockExplorer.GetXpub(null);
                 }
             });
         }

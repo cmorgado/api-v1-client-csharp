@@ -81,7 +81,7 @@ namespace Info.Blockchain.API.Models
 
 		public static ReadOnlyCollection<Transaction> DeserializeMultiple(string transactionsJson)
 		{
-			JObject jObject = JObject.Parse(transactionsJson);
+			var jObject = JObject.Parse(transactionsJson);
 
 			return jObject["txs"].ToObject<ReadOnlyCollection<Transaction>>();
 		}

@@ -8,13 +8,13 @@ namespace Info.Blockchain.API.Client
 {
     public class BlockchainApiHelper : IDisposable
     {
-        private readonly IHttpClient baseHttpClient;
-        private readonly IHttpClient serviceHttpClient;
-        public readonly BlockExplorer.BlockExplorer blockExplorer;
-        public readonly WalletCreator walletCreator;
-        public readonly TransactionPusher transactionBroadcaster;
-        public readonly ExchangeRateExplorer exchangeRateExplorer;
-        public readonly StatisticsExplorer statisticsExplorer;
+        private readonly IHttpClient _baseHttpClient;
+        private readonly IHttpClient _serviceHttpClient;
+        public readonly BlockExplorer.BlockExplorer BlockExplorer;
+        public readonly WalletCreator WalletCreator;
+        public readonly TransactionPusher TransactionBroadcaster;
+        public readonly ExchangeRateExplorer ExchangeRateExplorer;
+        public readonly StatisticsExplorer StatisticsExplorer;
 
         public BlockchainApiHelper(string apiCode = null, IHttpClient baseHttpClient = null, string serviceUrl = null, IHttpClient serviceHttpClient = null)
         {
@@ -24,7 +24,7 @@ namespace Info.Blockchain.API.Client
             }
             else
             {
-                this.baseHttpClient = baseHttpClient;
+                this._baseHttpClient = baseHttpClient;
                 if (apiCode != null)
                 {
                     baseHttpClient.ApiCode = apiCode;
@@ -37,7 +37,7 @@ namespace Info.Blockchain.API.Client
             }
             else if (serviceHttpClient != null)
             {
-                this.serviceHttpClient = serviceHttpClient;
+                this._serviceHttpClient = serviceHttpClient;
                 if (apiCode != null)
                 {
                     serviceHttpClient.ApiCode = apiCode;
@@ -48,19 +48,12 @@ namespace Info.Blockchain.API.Client
                 serviceHttpClient = null;
             }
 
-            this.blockExplorer = new BlockExplorer.BlockExplorer(baseHttpClient);
-            this.transactionBroadcaster = new TransactionPusher(baseHttpClient);
-            this.exchangeRateExplorer = new ExchangeRateExplorer(baseHttpClient);
-            this.statisticsExplorer = new StatisticsExplorer(new BlockchainHttpClient("https://api.blockchain.info"));
+            this.BlockExplorer = new BlockExplorer.BlockExplorer(baseHttpClient);
+            this.TransactionBroadcaster = new TransactionPusher(baseHttpClient);
+            this.ExchangeRateExplorer = new ExchangeRateExplorer(baseHttpClient);
+            this.StatisticsExplorer = new StatisticsExplorer(new BlockchainHttpClient("https://api.blockchain.info"));
 
-            if (serviceHttpClient != null)
-            {
-                walletCreator = new WalletCreator(serviceHttpClient);
-            }
-            else
-            {
-                walletCreator = null;
-            }
+            WalletCreator = serviceHttpClient != null ? new WalletCreator(serviceHttpClient) : null;
 
         }
 
@@ -73,28 +66,22 @@ namespace Info.Blockchain.API.Client
         /// <param name="secondPassword">Second password</param>
         public Wallet.Wallet InitializeWallet(string identifier, string password, string secondPassword = null)
         {
-            if (serviceHttpClient == null)
+            if (_serviceHttpClient == null)
             {
                 throw new ClientApiException("In order to create wallets, you must provide a valid service_url to BlockchainApiHelper");
             }
-            return new Wallet.Wallet(serviceHttpClient, identifier, password, secondPassword);
+            return new Wallet.Wallet(_serviceHttpClient, identifier, password, secondPassword);
         }
 
         public WalletCreator CreateWalletCreator()
         {
-            return new WalletCreator(serviceHttpClient);
+            return new WalletCreator(_serviceHttpClient);
         }
 
         public void Dispose()
         {
-            if (baseHttpClient != null)
-            {
-                baseHttpClient.Dispose();
-            }
-            if (serviceHttpClient != null)
-            {
-                serviceHttpClient.Dispose();
-            }
+            _baseHttpClient?.Dispose();
+            _serviceHttpClient?.Dispose();
         }
     }
 }

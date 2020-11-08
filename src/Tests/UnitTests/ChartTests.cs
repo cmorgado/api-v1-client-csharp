@@ -13,7 +13,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.statisticsExplorer.GetChartAsync("wrong-chart-name");
+                    await apiHelper.StatisticsExplorer.GetChartAsync("wrong-chart-name");
                 }
             });
         }
@@ -25,7 +25,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.statisticsExplorer.GetChartAsync("hash-rate", "wrong-timespan-format");
+                    await apiHelper.StatisticsExplorer.GetChartAsync("hash-rate", "wrong-timespan-format");
                 }
             });
 
@@ -33,7 +33,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.statisticsExplorer.GetPoolsAsync(0);
+                    await apiHelper.StatisticsExplorer.GetPoolsAsync(0);
                 }
             });
         }

@@ -11,7 +11,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 		{
 			using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
 			{
-				StatisticsResponse statisticsResponse = await apiHelper.statisticsExplorer.GetStatsAsync();
+				StatisticsResponse statisticsResponse = await apiHelper.StatisticsExplorer.GetStatsAsync();
 				Assert.NotNull(statisticsResponse);
 			}
 		}
@@ -21,7 +21,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
         {
             using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
             {
-                var chartResponse = await apiHelper.statisticsExplorer.GetChartAsync("hash-rate");
+                var chartResponse = await apiHelper.StatisticsExplorer.GetChartAsync("hash-rate");
                 Assert.NotNull(chartResponse);
             }
         }
@@ -31,7 +31,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
         {
             using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
             {
-                var chartResponse = await apiHelper.statisticsExplorer.GetPoolsAsync();
+                var chartResponse = await apiHelper.StatisticsExplorer.GetPoolsAsync();
                 Assert.NotNull(chartResponse);
             }
         }

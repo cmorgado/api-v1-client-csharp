@@ -111,7 +111,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 			{
 				using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
 				{
-					await apiHelper.walletCreator.CreateAsync("badpassword");
+					await apiHelper.WalletCreator.CreateAsync("badpassword");
 				}
 			});
 		}

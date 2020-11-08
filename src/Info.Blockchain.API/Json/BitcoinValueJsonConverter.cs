@@ -13,26 +13,16 @@ namespace Info.Blockchain.API.Json
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			if (reader.Value is long)
-			{
-				long satoshis = (long)reader.Value;
-				BitcoinValue bitcoinValue = BitcoinValue.FromSatoshis(satoshis);
-				return bitcoinValue;
-			}
-			return BitcoinValue.Zero;
+			if (!(reader.Value is long)) return BitcoinValue.Zero;
+			var satoshis = (long)reader.Value;
+			var bitcoinValue = BitcoinValue.FromSatoshis(satoshis);
+			return bitcoinValue;
 		}
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
 			string satoshis;
-			if (value is BitcoinValue)
-			{
-				satoshis = ((BitcoinValue)value).Satoshis.ToString();
-			}
-			else
-			{
-				satoshis = "0";
-			}
+			satoshis = value is BitcoinValue ? ((BitcoinValue)value).Satoshis.ToString() : "0";
 			writer.WriteRawValue(satoshis);
 		}
 	}

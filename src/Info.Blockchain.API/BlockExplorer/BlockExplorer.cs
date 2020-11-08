@@ -18,8 +18,8 @@ namespace Info.Blockchain.API.BlockExplorer
 	{
 		private readonly IHttpClient httpClient;
 		public const int MAX_TRANSACTIONS_PER_REQUEST = 50;
-        public const int MAX_TRANSACTIONS_PER_MULTI_REQUEST = 100;
-        public const int DEFAULT_UNSPENT_TRANSACTIONS_PER_REQUEST = 250;
+		public const int MAX_TRANSACTIONS_PER_MULTI_REQUEST = 100;
+		public const int DEFAULT_UNSPENT_TRANSACTIONS_PER_REQUEST = 250;
 
 		public BlockExplorer()
 		{
@@ -37,7 +37,7 @@ namespace Info.Blockchain.API.BlockExplorer
 		/// <param name="index">Transaction index</param>
 		/// <returns>An instance of the Transaction class</returns>
 		/// <exception cref="ServerApiException">If the server returns an error</exception>
-        [System.Obsolete("Deprecated. Get transaction by hash wherever possible.")]
+		[System.Obsolete("Deprecated. Get transaction by hash wherever possible.")]
 		public async Task<Transaction> GetTransactionByIndexAsync(long index)
 		{
 			if (index < 0)
@@ -64,7 +64,7 @@ namespace Info.Blockchain.API.BlockExplorer
 			return await GetTransactionAsync(hash);
 		}
 
-        private async Task<Transaction> GetTransactionAsync(string hashOrIndex)
+		private async Task<Transaction> GetTransactionAsync(string hashOrIndex)
 		{
 			if (string.IsNullOrWhiteSpace(hashOrIndex))
 			{
@@ -80,7 +80,7 @@ namespace Info.Blockchain.API.BlockExplorer
 		/// <param name="index">Block index</param>
 		/// <returns>An instance of the Block class</returns>
 		/// <exception cref="ServerApiException">If the server returns an error</exception>
-        [System.Obsolete("Deprecated. Get block by hash wherever possible.")]
+		[System.Obsolete("Deprecated. Get block by hash wherever possible.")]
 		public async Task<Block> GetBlockByIndexAsync(long index)
 		{
 			if (index < 0)
@@ -105,7 +105,7 @@ namespace Info.Blockchain.API.BlockExplorer
 			return await GetBlockAsync(hash);
 		}
 
-        private async Task<Block> GetBlockAsync(string hashOrIndex)
+		private async Task<Block> GetBlockAsync(string hashOrIndex)
 		{
 			if (string.IsNullOrWhiteSpace(hashOrIndex))
 			{
@@ -114,35 +114,35 @@ namespace Info.Blockchain.API.BlockExplorer
 			return await httpClient.GetAsync<Block>("rawblock/" + hashOrIndex, customDeserialization: Block.Deserialize);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Gets data for a single Base58Check address asynchronously.
 		/// </summary>
 		/// <param name="address">Base58Check address string</param>
 		/// <param name="limit">Max amount of transactions to retrieve (Max 50)</param>
-        /// <param name="offset">Number of transactions to skip</param>
-        /// <param name="filter">Filter type to use for query</param>
+		/// <param name="offset">Number of transactions to skip</param>
+		/// <param name="filter">Filter type to use for query</param>
 		/// <returns>An instance of the Address class</returns>
 		/// <exception cref="ServerApiException">If the server returns an error</exception>
-        public async Task<Address> GetBase58AddressAsync(string address, int limit = MAX_TRANSACTIONS_PER_REQUEST,
-                                                            int offset = 0, FilterType filter = FilterType.RemoveUnspendable)
-        {
-            return await GetAddressAsync(address, limit, offset, filter);
-        }
+		public async Task<Address> GetBase58AddressAsync(string address, int limit = MAX_TRANSACTIONS_PER_REQUEST,
+															int offset = 0, FilterType filter = FilterType.RemoveUnspendable)
+		{
+			return await GetAddressAsync(address, limit, offset, filter);
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Gets data for a single Hash160 address asynchronously.
 		/// </summary>
 		/// <param name="address">Hash160 address string</param>
 		/// <param name="limit">Max amount of transactions to retrieve (Max 50)</param>
-        /// <param name="offset">Number of transactions to skip</param>
-        /// <param name="filter">Filter type to use for query</param>
+		/// <param name="offset">Number of transactions to skip</param>
+		/// <param name="filter">Filter type to use for query</param>
 		/// <returns>An instance of the Address class</returns>
 		/// <exception cref="ServerApiException">If the server returns an error</exception>
-        public async Task<Address> GetHash160AddressAsync(string address, int limit = MAX_TRANSACTIONS_PER_REQUEST,
-                                                            int offset = 0, FilterType filter = FilterType.RemoveUnspendable)
-        {
-            return await GetAddressAsync(address, limit, offset, filter);
-        }
+		public async Task<Address> GetHash160AddressAsync(string address, int limit = MAX_TRANSACTIONS_PER_REQUEST,
+															int offset = 0, FilterType filter = FilterType.RemoveUnspendable)
+		{
+			return await GetAddressAsync(address, limit, offset, filter);
+		}
 
 		private async Task<Address> GetAddressAsync(string address, int limit, int offset, FilterType ft)
 		{
@@ -150,128 +150,128 @@ namespace Info.Blockchain.API.BlockExplorer
 			{
 				throw new ArgumentNullException(address);
 			}
-            if (limit < 1 || limit > MAX_TRANSACTIONS_PER_REQUEST)
-            {
-                throw new ArgumentOutOfRangeException(nameof(limit), "transaction limit must be greater than 0 and smaller than " + MAX_TRANSACTIONS_PER_REQUEST);
-            }
-            if (offset < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(offset), "offset must be equal to or greater than 0");
-            }
+			if (limit < 1 || limit > MAX_TRANSACTIONS_PER_REQUEST)
+			{
+				throw new ArgumentOutOfRangeException(nameof(limit), "transaction limit must be greater than 0 and smaller than " + MAX_TRANSACTIONS_PER_REQUEST);
+			}
+			if (offset < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(offset), "offset must be equal to or greater than 0");
+			}
 
-            var queryString = new QueryString();
-            queryString.Add("limit", limit.ToString());
-            queryString.Add("offset", offset.ToString());
-            queryString.Add("filter", ((int)ft).ToString());
+			var queryString = new QueryString();
+			queryString.Add("limit", limit.ToString());
+			queryString.Add("offset", offset.ToString());
+			queryString.Add("filter", ((int)ft).ToString());
 			queryString.Add("format", "json");
 
-            try
-            {
-                return await httpClient.GetAsync<Address>("address/" + address, queryString);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Contains("does not validate") || ex.Message.Contains("too short"))
-                {
-                    throw new ArgumentException(nameof(address), "address provided is invalid");
-                }
-                throw;
-            }
+			try
+			{
+				return await httpClient.GetAsync<Address>("address/" + address, queryString);
+			}
+			catch (Exception ex)
+			{
+				if (ex.Message.Contains("does not validate") || ex.Message.Contains("too short"))
+				{
+					throw new ArgumentException(nameof(address), "address provided is invalid");
+				}
+				throw;
+			}
 		}
 
-        /// <summary>
-        /// Returns xpub summary on a xpub provided, with its overall balance and its transactions.
-        /// </summary>
-        /// <param name="xpub">Xpub address string</param>
-        /// <param name="limit">Max amount of transactions to retrieve (Max 50)</param>
-        /// <param name="offset">Number of transactions to skip</param>
-        /// <param name="filter">Filter type to use for query</param>
-        /// <returns>Xpub model</returns>
-        public async Task<Xpub> GetXpub(string xpub, int limit = MAX_TRANSACTIONS_PER_MULTI_REQUEST,
-                                        int offset = 0, FilterType filter = FilterType.RemoveUnspendable)
-        {
-            if (string.IsNullOrWhiteSpace(xpub))
+		/// <summary>
+		/// Returns xpub summary on a xpub provided, with its overall balance and its transactions.
+		/// </summary>
+		/// <param name="xpub">Xpub address string</param>
+		/// <param name="limit">Max amount of transactions to retrieve (Max 50)</param>
+		/// <param name="offset">Number of transactions to skip</param>
+		/// <param name="filter">Filter type to use for query</param>
+		/// <returns>Xpub model</returns>
+		public async Task<Xpub> GetXpub(string xpub, int limit = MAX_TRANSACTIONS_PER_MULTI_REQUEST,
+										int offset = 0, FilterType filter = FilterType.RemoveUnspendable)
+		{
+			if (string.IsNullOrWhiteSpace(xpub))
 			{
 				throw new ArgumentNullException(xpub);
 			}
-            if (limit < 1 || limit > MAX_TRANSACTIONS_PER_MULTI_REQUEST)
-            {
-                throw new ArgumentOutOfRangeException(nameof(limit), "transaction limit must be greater than 0 and smaller than " + MAX_TRANSACTIONS_PER_MULTI_REQUEST);
-            }
-            if (offset < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(offset), "offset must be equal to or greater than 0");
-            }
+			if (limit < 1 || limit > MAX_TRANSACTIONS_PER_MULTI_REQUEST)
+			{
+				throw new ArgumentOutOfRangeException(nameof(limit), "transaction limit must be greater than 0 and smaller than " + MAX_TRANSACTIONS_PER_MULTI_REQUEST);
+			}
+			if (offset < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(offset), "offset must be equal to or greater than 0");
+			}
 
-            var queryString = new QueryString();
+			var queryString = new QueryString();
 
-            queryString.Add("active", xpub);
-            queryString.Add("limit", limit.ToString());
-            queryString.Add("offset", offset.ToString());
-            queryString.Add("filter", ((int)filter).ToString());
+			queryString.Add("active", xpub);
+			queryString.Add("limit", limit.ToString());
+			queryString.Add("offset", offset.ToString());
+			queryString.Add("filter", ((int)filter).ToString());
 			queryString.Add("format", "json");
 
-            try
-            {
-                return await httpClient.GetAsync<Xpub>("multiaddr", queryString, Xpub.Deserialize);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Contains("Invalid Bitcoin Address"))
-                {
-                    throw new ArgumentException(nameof(xpub), "the xpub provided is invalid");
-                }
-                throw;
-            }
-        }
+			try
+			{
+				return await httpClient.GetAsync<Xpub>("multiaddr", queryString, Xpub.Deserialize);
+			}
+			catch (Exception ex)
+			{
+				if (ex.Message.Contains("Invalid Bitcoin Address"))
+				{
+					throw new ArgumentException(nameof(xpub), "the xpub provided is invalid");
+				}
+				throw;
+			}
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Gets data for multiple Base58Check and / or Xpub address asynchronously.
 		/// </summary>
 		/// <param name="addressList">IEnumerable of Base58Check and / or xPub address strings</param>
 		/// <param name="limit">Max amount of transactions to retrieve (Max 50)</param>
-        /// <param name="offset">Number of transactions to skip</param>
-        /// <param name="filter">Filter type to use for query</param>
+		/// <param name="offset">Number of transactions to skip</param>
+		/// <param name="filter">Filter type to use for query</param>
 		/// <returns>An instance of the Address class</returns>
 		/// <exception cref="ServerApiException">If the server returns an error</exception>
-        public async Task<MultiAddress> GetMultiAddressAsync(IEnumerable<string> addressList, int limit = MAX_TRANSACTIONS_PER_MULTI_REQUEST,
-                                                            int offset = 0, FilterType filter = FilterType.RemoveUnspendable)
-        {
-            if (addressList == null || addressList.Count() == 0)
+		public async Task<MultiAddress> GetMultiAddressAsync(IEnumerable<string> addressList, int limit = MAX_TRANSACTIONS_PER_MULTI_REQUEST,
+															int offset = 0, FilterType filter = FilterType.RemoveUnspendable)
+		{
+			if (addressList == null || addressList.Count() == 0)
 			{
 				throw new ArgumentNullException("No addresses provided");
 			}
-            if (limit < 1 || limit > MAX_TRANSACTIONS_PER_MULTI_REQUEST)
-            {
-                throw new ArgumentOutOfRangeException(nameof(limit), "transaction limit must be greater than 0 and smaller than " + MAX_TRANSACTIONS_PER_MULTI_REQUEST);
-            }
-            if (offset < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(offset), "offset must be equal to or greater than 0");
-            }
+			if (limit < 1 || limit > MAX_TRANSACTIONS_PER_MULTI_REQUEST)
+			{
+				throw new ArgumentOutOfRangeException(nameof(limit), "transaction limit must be greater than 0 and smaller than " + MAX_TRANSACTIONS_PER_MULTI_REQUEST);
+			}
+			if (offset < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(offset), "offset must be equal to or greater than 0");
+			}
 
-            var queryString = new QueryString();
-            var addressQuery = String.Join("|", addressList);
+			var queryString = new QueryString();
+			var addressQuery = String.Join("|", addressList);
 
-            queryString.Add("active", addressQuery);
-            queryString.Add("limit", limit.ToString());
-            queryString.Add("offset", offset.ToString());
-            queryString.Add("filter", ((int)filter).ToString());
+			queryString.Add("active", addressQuery);
+			queryString.Add("limit", limit.ToString());
+			queryString.Add("offset", offset.ToString());
+			queryString.Add("filter", ((int)filter).ToString());
 			queryString.Add("format", "json");
 
-            try
-            {
-                return await httpClient.GetAsync<MultiAddress>("multiaddr", queryString);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Contains("Invalid Bitcoin Address"))
-                {
-                    throw new ArgumentException(nameof(addressQuery), "one or more addresses provided are invalid");
-                }
-                throw;
-            }
-        }
+			try
+			{
+				return await httpClient.GetAsync<MultiAddress>("multiaddr", queryString);
+			}
+			catch (Exception ex)
+			{
+				if (ex.Message.Contains("Invalid Bitcoin Address"))
+				{
+					throw new ArgumentException(nameof(addressQuery), "one or more addresses provided are invalid");
+				}
+				throw;
+			}
+		}
 
 		/// <summary>
 		/// Gets a list of blocks at the specified height. Normally, only one block will be returned,
@@ -296,8 +296,8 @@ namespace Info.Blockchain.API.BlockExplorer
 		/// Gets unspent outputs for a one or more Base58Check and / or xPub addresses.
 		/// </summary>
 		/// <param name="addressList">IEnumerable of Base58check and / or xPub address strings</param>
-        /// <param name="limit">Max amount of unspent outputs to receive (Max 50)</param>
-        /// <param name="confirmations">Minimum number of confirmations to receive (Default 0)</param>
+		/// <param name="limit">Max amount of unspent outputs to receive (Max 50)</param>
+		/// <param name="confirmations">Minimum number of confirmations to receive (Default 0)</param>
 		/// <returns>A list of unspent outputs for the specified address </returns>
 		/// <exception cref="ServerApiException">If the server returns an error</exception>
 		public async Task<ReadOnlyCollection<UnspentOutput>> GetUnspentOutputsAsync(IEnumerable<string> addressList, int limit = DEFAULT_UNSPENT_TRANSACTIONS_PER_REQUEST, int confirmations = 0)
@@ -306,21 +306,21 @@ namespace Info.Blockchain.API.BlockExplorer
 			{
 				throw new ArgumentNullException("No addresses provided");
 			}
-            if (limit < 1 || limit > DEFAULT_UNSPENT_TRANSACTIONS_PER_REQUEST)
-            {
-                throw new ArgumentOutOfRangeException(nameof(limit), "transaction limit must be greater than 0 and smaller than " + DEFAULT_UNSPENT_TRANSACTIONS_PER_REQUEST);
-            }
-            if (confirmations < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(confirmations), "confirmations must be equal to or greater than 0");
-            }
+			if (limit < 1 || limit > DEFAULT_UNSPENT_TRANSACTIONS_PER_REQUEST)
+			{
+				throw new ArgumentOutOfRangeException(nameof(limit), "transaction limit must be greater than 0 and smaller than " + DEFAULT_UNSPENT_TRANSACTIONS_PER_REQUEST);
+			}
+			if (confirmations < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(confirmations), "confirmations must be equal to or greater than 0");
+			}
 
 			var queryString = new QueryString();
 			var addressQuery = String.Join("|", addressList);
 
-            queryString.Add("active", addressQuery);
-            queryString.Add("limit", limit.ToString());
-            queryString.Add("confirmations", confirmations.ToString());
+			queryString.Add("active", addressQuery);
+			queryString.Add("limit", limit.ToString());
+			queryString.Add("confirmations", confirmations.ToString());
 			queryString.Add("format", "json");
 			try
 			{
@@ -334,10 +334,10 @@ namespace Info.Blockchain.API.BlockExplorer
 				{
 					return new ReadOnlyCollection<UnspentOutput>(new List<UnspentOutput>());
 				}
-                if (ex.Message.Contains("Invalid Bitcoin Address"))
-                {
-                    throw new ArgumentException(nameof(addressQuery), "one or more addresses provided are invalid");
-                }
+				if (ex.Message.Contains("Invalid Bitcoin Address"))
+				{
+					throw new ArgumentException(nameof(addressQuery), "one or more addresses provided are invalid");
+				}
 				throw;
 			}
 		}
@@ -404,21 +404,21 @@ namespace Info.Blockchain.API.BlockExplorer
 			return await GetBlocksAsync(unixMillis.ToString());
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Gets a list of recent blocks by a specific mining pool (Max 101).
-        /// No input returns all blocks mined today since midnight.
-        /// </summary>
-        /// <param name="poolName">Name of mining pool</param>
-        /// <returns>A list of SimpleBlock objects</returns>
+		/// No input returns all blocks mined today since midnight.
+		/// </summary>
+		/// <param name="poolName">Name of mining pool</param>
+		/// <returns>A list of SimpleBlock objects</returns>
 		/// <exception cref="ServerApiException">If the server returns an error</exception>
-        public async Task<ReadOnlyCollection<SimpleBlock>> GetBlocksByPoolNameAsync(string poolName = "")
-        {
-            return await GetBlocksAsync(poolName);
-        }
+		public async Task<ReadOnlyCollection<SimpleBlock>> GetBlocksByPoolNameAsync(string poolName = "")
+		{
+			return await GetBlocksAsync(poolName);
+		}
 
 		/// <summary>
 		/// Gets a list of recent blocks by a specific mining pool or up to a specified timestamp.
-        /// If neither is provided returns all blocks mined since midnight.
+		/// If neither is provided returns all blocks mined since midnight.
 		/// </summary>
 		/// <param name="poolNameOrTimestamp">Name of the mining pool or Unix timestamp in milliseconds that falls
 		/// between 00:00 UTC and 23:59 UTC of the desired day.</param>
@@ -429,7 +429,7 @@ namespace Info.Blockchain.API.BlockExplorer
 			var queryString = new QueryString();
 			queryString.Add("format", "json");
 
-			ReadOnlyCollection<SimpleBlock> simpleBlocks = await httpClient.GetAsync("blocks/" + poolNameOrTimestamp, queryString, SimpleBlock.DeserializeMultiple);
+			var simpleBlocks = await httpClient.GetAsync("blocks/" + poolNameOrTimestamp, queryString, SimpleBlock.DeserializeMultiple);
 
 			return simpleBlocks;
 		}

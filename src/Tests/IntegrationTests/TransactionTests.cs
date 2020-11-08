@@ -14,7 +14,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 			using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
 			{
 				Transaction knownTransaction = ReflectionUtil.DeserializeFile<Transaction>("single_transaction");
-				Transaction receivedTransaction = await apiHelper.blockExplorer.GetTransactionByHashAsync(knownTransaction.Hash);
+				Transaction receivedTransaction = await apiHelper.BlockExplorer.GetTransactionByHashAsync(knownTransaction.Hash);
 
 				CompareLogic compareLogic = new CompareLogic();
 				ComparisonResult comparisonResult = compareLogic.Compare(knownTransaction, receivedTransaction);
@@ -28,7 +28,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 			using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
 			{
 				Transaction knownTransaction = ReflectionUtil.DeserializeFile<Transaction>("single_transaction");
-				Transaction receivedTransaction = await apiHelper.blockExplorer.GetTransactionByIndexAsync(knownTransaction.Index);
+				Transaction receivedTransaction = await apiHelper.BlockExplorer.GetTransactionByIndexAsync(knownTransaction.Index);
 
 				CompareLogic compareLogic = new CompareLogic();
 				ComparisonResult comparisonResult = compareLogic.Compare(knownTransaction, receivedTransaction);
@@ -41,7 +41,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 		{
 			using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
 			{
-				ReadOnlyCollection<Transaction> unconfirmedTransactions = await apiHelper.blockExplorer.GetUnconfirmedTransactionsAsync();
+				ReadOnlyCollection<Transaction> unconfirmedTransactions = await apiHelper.BlockExplorer.GetUnconfirmedTransactionsAsync();
 
 				Assert.NotNull(unconfirmedTransactions);
 			}

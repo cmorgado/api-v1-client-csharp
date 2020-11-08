@@ -14,7 +14,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetBlockByIndexAsync(-1);
+					await apiHelper.BlockExplorer.GetBlockByIndexAsync(-1);
 				}
 			});
 
@@ -23,7 +23,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetBlockByHashAsync(null);
+					await apiHelper.BlockExplorer.GetBlockByHashAsync(null);
 				}
 			});
 		}
@@ -35,7 +35,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetBlocksByTimestampAsync(-1);
+					await apiHelper.BlockExplorer.GetBlocksByTimestampAsync(-1);
 				}
 			});
 
@@ -44,7 +44,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetBlocksByTimestampAsync(1000);
+					await apiHelper.BlockExplorer.GetBlocksByTimestampAsync(1000);
 				}
 			});
 
@@ -52,7 +52,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetBlocksByTimestampAsync(int.MaxValue);
+					await apiHelper.BlockExplorer.GetBlocksByTimestampAsync(int.MaxValue);
 				}
 			});
 
@@ -61,7 +61,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetBlocksByDateTimeAsync(DateTime.MinValue);
+					await apiHelper.BlockExplorer.GetBlocksByDateTimeAsync(DateTime.MinValue);
 				}
 			});
 
@@ -69,7 +69,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetBlocksByDateTimeAsync(DateTime.MaxValue);
+					await apiHelper.BlockExplorer.GetBlocksByDateTimeAsync(DateTime.MaxValue);
 				}
 			});
 		}
@@ -81,7 +81,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
 			{
 				using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
 				{
-					await apiHelper.blockExplorer.GetBlocksAtHeightAsync(-1);
+					await apiHelper.BlockExplorer.GetBlocksAtHeightAsync(-1);
 				}
 			});
 		}
@@ -93,7 +93,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.blockExplorer.GetBase58AddressAsync("");
+                    await apiHelper.BlockExplorer.GetBase58AddressAsync("");
                 }
             });
 
@@ -101,7 +101,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.blockExplorer.GetBase58AddressAsync("some-address", 60);
+                    await apiHelper.BlockExplorer.GetBase58AddressAsync("some-address", 60);
                 }
             });
 
@@ -109,7 +109,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.blockExplorer.GetBase58AddressAsync("some-address", offset: -1);
+                    await apiHelper.BlockExplorer.GetBase58AddressAsync("some-address", offset: -1);
                 }
             });
 
@@ -117,7 +117,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.blockExplorer.GetMultiAddressAsync(new List<string>());
+                    await apiHelper.BlockExplorer.GetMultiAddressAsync(new List<string>());
                 }
             });
 
@@ -125,7 +125,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.blockExplorer.GetMultiAddressAsync(new List<string>() {"address"}, offset: -1);
+                    await apiHelper.BlockExplorer.GetMultiAddressAsync(new List<string>() {"address"}, offset: -1);
                 }
             });
 
@@ -133,7 +133,7 @@ namespace Info.Blockchain.API.Tests.UnitTests
             {
                 using (BlockchainApiHelper apiHelper = UnitTestUtil.GetFakeHelper())
                 {
-                    await apiHelper.blockExplorer.GetMultiAddressAsync(new List<string>() {"address"}, 60);
+                    await apiHelper.BlockExplorer.GetMultiAddressAsync(new List<string>() {"address"}, 60);
                 }
             });
         }

@@ -4,23 +4,23 @@ using System.Linq;
 
 namespace Info.Blockchain.API.Models
 {
-    public class Xpub : Address
-    {
-        [JsonProperty("change_index")]
-        public int ChangeIndex { get; private set; }
+	public class Xpub : Address
+	{
+		[JsonProperty("change_index")]
+		public int ChangeIndex { get; private set; }
 
-        [JsonProperty("account_index")]
-        public int AccountIndex { get; private set; }
+		[JsonProperty("account_index")]
+		public int AccountIndex { get; private set; }
 
-        [JsonProperty("gap_limit")]
-        public int GapLimit { get; private set; }
+		[JsonProperty("gap_limit")]
+		public int GapLimit { get; private set; }
 
-        public static Xpub Deserialize(string xpubJson)
+		public static Xpub Deserialize(string xpubJson)
 		{
-			JObject xpubJObject = JObject.Parse(xpubJson);
-            JToken xpubOutput = xpubJObject["addresses"].AsJEnumerable().FirstOrDefault();
-            xpubOutput["txs"] = xpubJObject["txs"];
+			var xpubJObject = JObject.Parse(xpubJson);
+			var xpubOutput = xpubJObject["addresses"].AsJEnumerable().FirstOrDefault();
+			xpubOutput["txs"] = xpubJObject["txs"];
 			return xpubOutput.ToObject<Xpub>();
 		}
-    }
+	}
 }

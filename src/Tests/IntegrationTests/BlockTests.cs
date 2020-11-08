@@ -21,7 +21,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 		{
 			using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
 			{
-				LatestBlock latestBlock = await apiHelper.blockExplorer.GetLatestBlockAsync();
+				LatestBlock latestBlock = await apiHelper.BlockExplorer.GetLatestBlockAsync();
 				Assert.NotNull(latestBlock);
 			}
 		}
@@ -34,7 +34,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 			{
 				const int height = 100000;
 				IEnumerable<Block> knownBlocks = ReflectionUtil.DeserializeFile("blocks_height_" + height, Block.DeserializeMultiple);
-				IEnumerable<Block> receivedBlocks = await apiHelper.blockExplorer.GetBlocksAtHeightAsync(height);
+				IEnumerable<Block> receivedBlocks = await apiHelper.BlockExplorer.GetBlocksAtHeightAsync(height);
 
 				ComparisonResult comparisonResult = new CompareLogic().Compare(knownBlocks, receivedBlocks);
 
@@ -50,7 +50,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 			{
 				const long unixMillis = 1293623863000;
 				ReadOnlyCollection<SimpleBlock> knownBlocks = ReflectionUtil.DeserializeFile("blocks_timestamp_" + 1293623863000, SimpleBlock.DeserializeMultiple);
-				ReadOnlyCollection<SimpleBlock> receivedBlocks = await apiHelper.blockExplorer.GetBlocksByTimestampAsync(unixMillis);
+				ReadOnlyCollection<SimpleBlock> receivedBlocks = await apiHelper.BlockExplorer.GetBlocksByTimestampAsync(unixMillis);
 
 				ComparisonResult comparisonResult = new CompareLogic().Compare(knownBlocks, receivedBlocks);
 				bool areEqual = comparisonResult.AreEqual;
@@ -66,7 +66,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 				const long unixMillis = 1293623863000;
 				DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(unixMillis);
 				ReadOnlyCollection<SimpleBlock> knownBlocks = ReflectionUtil.DeserializeFile("blocks_timestamp_" + 1293623863000, SimpleBlock.DeserializeMultiple);
-				ReadOnlyCollection<SimpleBlock> receivedBlocks = await apiHelper.blockExplorer.GetBlocksByDateTimeAsync(dateTime);
+				ReadOnlyCollection<SimpleBlock> receivedBlocks = await apiHelper.BlockExplorer.GetBlocksByDateTimeAsync(dateTime);
 
 				ComparisonResult comparisonResult = new CompareLogic().Compare(knownBlocks, receivedBlocks);
 				bool areEqual = comparisonResult.AreEqual;
@@ -80,7 +80,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 			using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
 			{
 				const string poolName = "AntPool";
-				ReadOnlyCollection<SimpleBlock> receivedBlocks = await apiHelper.blockExplorer.GetBlocksByPoolNameAsync(poolName);
+				ReadOnlyCollection<SimpleBlock> receivedBlocks = await apiHelper.BlockExplorer.GetBlocksByPoolNameAsync(poolName);
 
 				Assert.NotNull(receivedBlocks);
 			}
@@ -92,7 +92,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
             using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
 			{
 				const string addr = "79b9dd10b535eee0d23530efbd99eb77f1f86a6e";
-				var addrResponse = await apiHelper.blockExplorer.GetHash160AddressAsync(addr);
+				var addrResponse = await apiHelper.BlockExplorer.GetHash160AddressAsync(addr);
 
 				Assert.NotNull(addrResponse);
 			}
@@ -105,7 +105,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 			{
 				const string addrOne = "1L2gyggr1ojHTiELNRmnF4TToZ61dACr37";
                 const string addrTwo = "18MseereT52TSuuGmszRT411JrCa7PRqZB";
-				var addrResponse = await apiHelper.blockExplorer.GetMultiAddressAsync(new List<string>() {addrOne, addrTwo});
+				var addrResponse = await apiHelper.BlockExplorer.GetMultiAddressAsync(new List<string>() {addrOne, addrTwo});
 
 				Assert.NotNull(addrResponse);
 			}

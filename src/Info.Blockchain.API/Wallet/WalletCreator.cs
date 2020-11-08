@@ -5,24 +5,24 @@ using Info.Blockchain.API.Models;
 
 namespace Info.Blockchain.API.Wallet
 {
-    /// <summary>
-    /// This class reflects the functionality documented at https://blockchain.info/api/create_wallet.
-    /// <summary>
-    public class WalletCreator
-    {
-        private readonly IHttpClient httpClient;
+	/// <summary>
+	/// This class reflects the functionality documented at https://blockchain.info/api/create_wallet.
+	/// <summary>
+	public class WalletCreator
+	{
+		private readonly IHttpClient httpClient;
 
-        public WalletCreator()
-        {
-            httpClient = new BlockchainHttpClient(uri: "http://127.0.0.1:3000");
-        }
+		public WalletCreator()
+		{
+			httpClient = new BlockchainHttpClient(uri: "http://127.0.0.1:3000");
+		}
 
-        public WalletCreator(IHttpClient httpClient)
-        {
-            this.httpClient = httpClient;
-        }
+		public WalletCreator(IHttpClient httpClient)
+		{
+			this.httpClient = httpClient;
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Creates a new Blockchain.info wallet if the user's API code has the 'generate wallet' permission.
 		/// It can be created containing a pre-generated private key or will otherwise generate a new private key.
 		/// </summary>
@@ -34,25 +34,25 @@ namespace Info.Blockchain.API.Wallet
 		/// <exception cref="ServerApiException">If the server returns an error</exception>
 		public async Task<CreateWalletResponse> CreateAsync(string password, string privateKey = null, string label = null, string email = null)
 		{
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new ArgumentNullException(nameof(password));
-            }
-            if (string.IsNullOrWhiteSpace(httpClient.ApiCode))
-            {
-                throw new ArgumentNullException("Api code must be specified", innerException: null);
-            }
+			if (string.IsNullOrWhiteSpace(password))
+			{
+				throw new ArgumentNullException(nameof(password));
+			}
+			if (string.IsNullOrWhiteSpace(httpClient.ApiCode))
+			{
+				throw new ArgumentNullException("Api code must be specified", innerException: null);
+			}
 
-            var request = new CreateWalletRequest {
-                Password = password,
-                ApiCode = httpClient.ApiCode,
-                PrivateKey = privateKey,
-                Label = label,
-                Email = email
-            };
+			var request = new CreateWalletRequest {
+				Password = password,
+				ApiCode = httpClient.ApiCode,
+				PrivateKey = privateKey,
+				Label = label,
+				Email = email
+			};
 
-            var newWallet = await httpClient.PostAsync<CreateWalletRequest, CreateWalletResponse>("api/v2/create/", request, contentType: "application/json");
-            return newWallet;
+			var newWallet = await httpClient.PostAsync<CreateWalletRequest, CreateWalletResponse>("api/v2/create/", request, contentType: "application/json");
+			return newWallet;
 		}
-    }
+	}
 }

@@ -8,13 +8,11 @@ namespace Info.Blockchain.API.Receive
 {
     public class Receive
     {
-        private readonly IHttpClient httpClient;
+        private readonly IHttpClient _httpClient;
 
         public Receive(IHttpClient httpClient = null)
         {
-            this.httpClient = (httpClient == null)
-                ? new BlockchainHttpClient("https://api.blockchain.info/v2")
-                : httpClient;
+            this._httpClient = httpClient ?? new BlockchainHttpClient("https://api.blockchain.info/v2");
         }
 
         /// <summary>
@@ -35,7 +33,7 @@ namespace Info.Blockchain.API.Receive
 
             try
             {
-                return await httpClient.GetAsync<ReceivePaymentResponse>("receive", queryString);
+                return await _httpClient.GetAsync<ReceivePaymentResponse>("receive", queryString);
             }
             catch (Exception ex)
             {
@@ -66,7 +64,7 @@ namespace Info.Blockchain.API.Receive
 
             try
             {
-                return await httpClient.GetAsync<XpubGap>("receive/checkgap", queryString);
+                return await _httpClient.GetAsync<XpubGap>("receive/checkgap", queryString);
             }
             catch (Exception ex)
             {
@@ -96,7 +94,7 @@ namespace Info.Blockchain.API.Receive
 
             try
             {
-                return await httpClient.GetAsync<IEnumerable<CallbackLog>>("receive/callback_log", queryString);
+                return await _httpClient.GetAsync<IEnumerable<CallbackLog>>("receive/callback_log", queryString);
             }
             catch (Exception ex)
             {

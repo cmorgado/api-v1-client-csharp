@@ -38,25 +38,25 @@ namespace Info.Blockchain.API.Models
 
 		public static string DeserializeArchived(string json)
 		{
-			JObject jObject = JObject.Parse(json);
+			var jObject = JObject.Parse(json);
 			return jObject["archived"].ToObject<string>();
 		}
 
 		public static string DeserializeUnArchived(string json)
 		{
-			JObject jObject = JObject.Parse(json);
+			var jObject = JObject.Parse(json);
 			return jObject["active"].ToObject<string>();
 		}
 
 		public static List<string> DeserializeConsolidated(string json)
 		{
-			JObject jObject = JObject.Parse(json);
+			var jObject = JObject.Parse(json);
 			return jObject["consolidated"].ToObject<List<string>>();
 		}
 
 		public static List<WalletAddress> DeserializeMultiple(string json)
 		{
-			JObject jObject = JObject.Parse(json);
+			var jObject = JObject.Parse(json);
 			return jObject["addresses"].ToObject<List<WalletAddress>>();
 		}
 	}

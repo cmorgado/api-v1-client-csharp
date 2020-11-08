@@ -12,16 +12,16 @@ namespace Info.Blockchain.API.ExchangeRates
 	/// </summary>
 	public class ExchangeRateExplorer
 	{
-		private readonly IHttpClient httpClient;
+		private readonly IHttpClient _httpClient;
 
 		public ExchangeRateExplorer()
 		{
-			httpClient = new BlockchainHttpClient();
+			_httpClient = new BlockchainHttpClient();
 		}
 
 		internal ExchangeRateExplorer(IHttpClient httpClient)
 		{
-			this.httpClient = httpClient;
+			this._httpClient = httpClient;
 		}
 
 		/// <summary>
@@ -32,7 +32,7 @@ namespace Info.Blockchain.API.ExchangeRates
 		/// <exception cref="ServerApiException">If the server returns an error</exception>
 		public async Task<Dictionary<string, Currency>> GetTickerAsync()
 		{
-			return await httpClient.GetAsync<Dictionary<string, Currency>>("ticker");
+			return await _httpClient.GetAsync<Dictionary<string, Currency>>("ticker");
 		}
 
 		/// <summary>
@@ -52,11 +52,11 @@ namespace Info.Blockchain.API.ExchangeRates
 			{
 				throw new ArgumentOutOfRangeException(nameof(value), "Value must be greater than 0");
 			}
-			QueryString queryString = new QueryString();
+			var queryString = new QueryString();
 			queryString.Add("currency", currency);
 			queryString.Add("value", value.ToString());
 
-			return await httpClient.GetAsync<double>("tobtc", queryString);
+			return await _httpClient.GetAsync<double>("tobtc", queryString);
 		}
 
         /// <summary>
@@ -75,11 +75,11 @@ namespace Info.Blockchain.API.ExchangeRates
             {
                 throw new ArgumentOutOfRangeException(nameof(btc), "BitcoinValue must represent a value higher than 0");
             }
-            QueryString queryString = new QueryString();
+            var queryString = new QueryString();
             queryString.Add("currency", currency);
             queryString.Add("value", btc.Satoshis.ToString());
 
-            return await httpClient.GetAsync<double>("frombtc", queryString);
+            return await _httpClient.GetAsync<double>("frombtc", queryString);
         }
 	}
 }

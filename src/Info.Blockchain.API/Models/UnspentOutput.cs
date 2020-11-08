@@ -56,7 +56,7 @@ namespace Info.Blockchain.API.Models
 
 		public static ReadOnlyCollection<UnspentOutput> DeserializeMultiple(string outputsJson)
 		{
-			JObject jObject = JObject.Parse(outputsJson);
+			var jObject = JObject.Parse(outputsJson);
 			return jObject["unspent_outputs"].ToObject<ReadOnlyCollection<UnspentOutput>>();
 		}
 	}

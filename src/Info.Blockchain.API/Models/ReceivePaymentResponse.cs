@@ -2,9 +2,9 @@ using Newtonsoft.Json;
 
 namespace Info.Blockchain.API.Models
 {
-    public class ReceivePaymentResponse
-    {
-        /// <summary>
+	public class ReceivePaymentResponse
+	{
+		/// <summary>
 		/// The newly generated address
 		/// </summary>
 		[JsonProperty("address", Required = Required.Always)]
@@ -21,5 +21,5 @@ namespace Info.Blockchain.API.Models
 		/// </summary>
 		[JsonProperty("callback", Required = Required.Always)]
 		public string Callback { get; private set; }
-    }
+	}
 }

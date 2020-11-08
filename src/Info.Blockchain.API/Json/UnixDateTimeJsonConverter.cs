@@ -22,7 +22,7 @@ namespace Info.Blockchain.API.Json
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			object value = reader.Value;
+			var value = reader.Value;
 			if (reader.Value is long)
 			{
 				value = (double) (long) value;
@@ -48,7 +48,7 @@ namespace Info.Blockchain.API.Json
 		{
 			if (value is DateTime)
 			{
-				double unixTimestamp = UnixDateTimeJsonConverter.DateTimeToUnixSeconds((DateTime) value);
+				var unixTimestamp = UnixDateTimeJsonConverter.DateTimeToUnixSeconds((DateTime) value);
                 if (this.convertFromMillis)
                 {
 	                unixTimestamp *= 1000d;
@@ -69,7 +69,7 @@ namespace Info.Blockchain.API.Json
 
 		private static DateTime UnixMillisToDateTime(double unixMillis)
 		{
-			DateTime dateTime = UnixDateTimeJsonConverter.epoch.AddMilliseconds(unixMillis);
+			var dateTime = UnixDateTimeJsonConverter.epoch.AddMilliseconds(unixMillis);
 			if (dateTime < UnixDateTimeJsonConverter.GenesisBlockDate)
 			{
 				throw new ArgumentOutOfRangeException(nameof(unixMillis),

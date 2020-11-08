@@ -13,7 +13,7 @@ namespace Info.Blockchain.API.Tests.IntegrationTests
 			{
 				using (BlockchainApiHelper apiHelper = new BlockchainApiHelper())
 				{
-					await apiHelper.transactionBroadcaster.PushTransactionAsync("Test");
+					await apiHelper.TransactionBroadcaster.PushTransactionAsync("Test");
 				}
 			});
 			Assert.Contains("Parse", serverApiException.Message);

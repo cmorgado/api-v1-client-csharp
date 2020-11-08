@@ -34,13 +34,13 @@ namespace Info.Blockchain.API.Models
 
         public static BitcoinValue operator +(BitcoinValue x, BitcoinValue y)
         {
-            decimal btc = x._btc + y._btc;
+            var btc = x._btc + y._btc;
             return new BitcoinValue(btc);
         }
 
         public static BitcoinValue operator -(BitcoinValue x, BitcoinValue y)
         {
-            decimal btc = x._btc - y._btc;
+            var btc = x._btc - y._btc;
             return new BitcoinValue(btc);
         }
 
@@ -51,11 +51,7 @@ namespace Info.Blockchain.API.Models
 
         public override bool Equals(object obj)
         {
-            if (obj is BitcoinValue)
-            {
-                return this.Equals((BitcoinValue) obj);
-            }
-            return false;
+            return obj is BitcoinValue && this.Equals((BitcoinValue) obj);
         }
 
         public override int GetHashCode()
